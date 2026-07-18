@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "PowerShell(Invoke-RestMethod -Uri \"https://raw.githubusercontent.com/txodds/tx-on-chain/main/package.json\" -UseBasicParsing)",
+      "PowerShell(Invoke-RestMethod -Uri \"https://raw.githubusercontent.com/txodds/tx-on-chain/main/examples/devnet/common/users.ts\" -UseBasicParsing)",
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)",
+      "PowerShell(yarn --version 2>$null)",
+      "PowerShell(solana --version 2>$null)",
+      "PowerShell(anchor --version 2>$null)",
+      "PowerShell(node scratch_gen_wallet.cjs)",
+      "WebFetch(domain:txline.txodds.com)",
+      "PowerShell(Invoke-WebRequest -Uri \"https://txline.txodds.com/documentation/examples/fetching-snapshots.md\" -UseBasicParsing)",
+      "PowerShell(Invoke-RestMethod -Uri \"http://localhost:3001/api/games/18241006\")",
+      "PowerShell(\\(Invoke-RestMethod -Uri \"http://localhost:3001/api/fixtures?competitionId=72&startEpochDay=20624\"\\).Count)",
+      "PowerShell(Invoke-RestMethod -Uri \"http://localhost:3001/api/games/18241006/certificate\" -Method Post)",
+      "PowerShell(Invoke-RestMethod -Uri \"http://localhost:3001/api/fixtures?competitionId=72\")",
+      "Skill(run)",
+      "Skill(run:*)",
+      "PowerShell(Get-Command chromium-cli -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command npx -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\Raphael\\\\Desktop\\\\solanaapp\\\\recibet\\\\app\\\\public\" -File | Select-Object Name, Length | ForEach-Object { \"{0}: {1:N2} KB \\({2} bytes\\)\" -f $_.Name, \\($_.Length/1KB\\), $_.Length })"
+    ]
+  }
+}
