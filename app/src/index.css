@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: Inter, sans-serif;
+  --color-solana-purple: #9945FF;
+  --color-solana-green: #14F195;
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+  }
+}
+
+/* Custom Wallet Adapter Styles */
+.wallet-adapter-button {
+  background-color: var(--color-solana-purple) !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 700 !important;
+  border-radius: 12px !important;
+  transition: all 0.2s !important;
+  box-shadow: 0 0 10px rgba(153, 69, 255, 0.4) !important;
+}
+
+.wallet-adapter-button:hover {
+  background-color: #8036e6 !important;
+  box-shadow: 0 0 15px rgba(153, 69, 255, 0.6) !important;
+}
