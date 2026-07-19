@@ -53,7 +53,7 @@ export const mintSBT = async (
             uri: `https://api.txline.mock/verify/${commitmentHash}`,
             additionalMetadata: [
                 ["commitment", commitmentHash]
-            ],
+            ] as [string, string][],
         };
 
         const metadataExtension = 72; // basic padding
