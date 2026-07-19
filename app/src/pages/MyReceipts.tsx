@@ -3,9 +3,11 @@ import { ShieldCheck, Link as LinkIcon, ExternalLink, FileDown } from 'lucide-re
 import { Link } from 'react-router-dom';
 import { downloadReceiptPdf } from '../utils/receiptPdf';
 import HashChip from '../components/HashChip';
+import { useTranslation } from '../hooks/useTranslation';
 
 export default function MyReceipts() {
     const [receipts, setReceipts] = useState<any[]>([]);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const data = JSON.parse(localStorage.getItem('my_receipts') || '[]');
@@ -21,12 +23,12 @@ export default function MyReceipts() {
                         <ShieldCheck className="w-14 h-14 text-slate-400 group-hover:text-solana-purple transition-colors duration-500" aria-hidden="true" />
                     </div>
                 </div>
-                <h1 className="text-2xl font-bold mb-3 text-slate-100">Nenhum Recibo Encontrado</h1>
+                <h1 className="text-2xl font-bold mb-3 text-slate-100">{t('Nenhum Recibo Encontrado', 'No Receipts Found')}</h1>
                 <p className="text-sm text-slate-400 mb-10 max-w-md leading-relaxed">
-                    Você ainda não gerou nenhum recibo neste navegador. Os recibos são provas criptográficas que garantem a autenticidade dos resultados contra manipulações.
+                    {t('Você ainda não gerou nenhum recibo neste navegador. Os recibos são provas criptográficas que garantem a autenticidade dos resultados contra manipulações.', 'You haven\'t generated any receipts in this browser yet. Receipts are cryptographic proofs that guarantee the authenticity of results against manipulation.')}
                 </p>
                 <Link to="/" className="px-8 py-4 bg-solana-purple text-white font-bold tracking-wide rounded-xl text-sm shadow-[0_0_20px_rgba(153,69,255,0.4)] hover:bg-[#8036e6] hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(153,69,255,0.6)] transition-all duration-300">
-                    Explorar Partidas
+                    {t('Explorar Partidas', 'Explore Matches')}
                 </Link>
             </div>
         );
@@ -34,9 +36,9 @@ export default function MyReceipts() {
 
     return (
         <div className="p-4 min-h-full pb-24 relative max-w-3xl mx-auto">
-            <h1 className="font-bold text-2xl text-slate-100 mb-2">Seus Recibos</h1>
+            <h1 className="font-bold text-2xl text-slate-100 mb-2">{t('Seus Recibos', 'Your Receipts')}</h1>
             <p className="text-sm text-slate-400 mb-8">
-                Histórico dos certificados gerados neste navegador, cada um com prova real ancorada na Solana.
+                {t('Histórico dos certificados gerados neste navegador, cada um com prova real ancorada na Solana.', 'History of certificates generated in this browser, each with real proof anchored on Solana.')}
             </p>
 
             <div className="space-y-5">
@@ -48,7 +50,7 @@ export default function MyReceipts() {
                             <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
                                 <span className="stamp text-xs">
                                     <ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />
-                                    Emitido
+                                    {t('Emitido', 'Issued')}
                                 </span>
                             </div>
 
@@ -69,11 +71,11 @@ export default function MyReceipts() {
 
                             {r.bet && (
                                 <div className="mt-5 bg-slate-950/50 p-4 rounded-xl border border-slate-800">
-                                    <p className="text-xs font-bold text-slate-300 mb-3 uppercase tracking-wider">Anexo da Aposta Off-chain</p>
+                                    <p className="text-xs font-bold text-slate-300 mb-3 uppercase tracking-wider">{t('Anexo da Aposta Off-chain', 'Off-chain Bet Attachment')}</p>
                                     <div className="space-y-1">
-                                        <p className="text-xs text-slate-400"><span className="text-slate-400">Casa:</span> <span className="text-slate-200">{r.bet.casa}</span></p>
-                                        <p className="text-xs text-slate-400"><span className="text-slate-400">Mercado:</span> <span className="text-slate-200">{r.bet.mercado}</span></p>
-                                        <p className="text-xs text-slate-400"><span className="text-slate-400">Odd:</span> <span className="text-slate-200">{r.bet.odd}</span></p>
+                                        <p className="text-xs text-slate-400"><span className="text-slate-400">{t('Casa:', 'Bookmaker:')}</span> <span className="text-slate-200">{r.bet.casa}</span></p>
+                                        <p className="text-xs text-slate-400"><span className="text-slate-400">{t('Mercado:', 'Market:')}</span> <span className="text-slate-200">{r.bet.mercado}</span></p>
+                                        <p className="text-xs text-slate-400"><span className="text-slate-400">{t('Odd:', 'Odd:')}</span> <span className="text-slate-200">{r.bet.odd}</span></p>
                                     </div>
                                 </div>
                             )}
@@ -84,7 +86,7 @@ export default function MyReceipts() {
                                     className="flex-1 flex items-center justify-center gap-2 py-3 px-3 bg-solana-purple text-white rounded-xl text-xs font-bold hover:bg-[#8036e6] transition-colors shadow-[0_0_10px_rgba(153,69,255,0.3)]"
                                 >
                                     <LinkIcon className="w-4 h-4" aria-hidden="true" />
-                                    Verificar Publicamente
+                                    {t('Verificar Publicamente', 'Verify Publicly')}
                                 </Link>
                                 {r.certificate && (
                                     <button

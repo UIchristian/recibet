@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ChevronLeft, Flag, CircleDot } from 'lucide-react';
 import { getGameSummary, formatMatchDate, formatClock, flagCode, type MatchSummary, type MatchEvent, type CardEvent } from '../api/txline';
 import LoadingState from '../components/LoadingState';
+import { useTranslation } from '../hooks/useTranslation';
 
 type TimelineItem =
     | ({ kind: 'goal' } & MatchEvent)
@@ -12,16 +13,17 @@ export default function MatchDetail() {
     const { id } = useParams();
     const [match, setMatch] = useState<MatchSummary | null>(null);
     const [error, setError] = useState('');
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (!id) return;
         getGameSummary(id)
             .then(setMatch)
-            .catch(err => setError(err.message || 'Falha ao carregar a partida.'));
+            .catch(err => setError(err.message || t('Falha ao carregar a partida.', 'Failed to load match.')));
     }, [id]);
 
     if (error) return <div role="alert" className="p-8 text-center text-red-400">{error}</div>;
-    if (!match) return <LoadingState message="Carregando dados oficiais..." />;
+    if (!match) return <LoadingState message={t("Carregando dados oficiais...", "Loading official data...")} />;
 
     const { date } = formatMatchDate(match.startTime);
     const isFinished = match.finalScore !== null;
@@ -52,15 +54,15 @@ export default function MatchDetail() {
 
     return (
         <div className="p-4 min-h-full pb-32 relative max-w-3xl mx-auto">
-            <h1 className="sr-only">Detalhes da partida: {match.teams.participant1.name} x {match.teams.participant2.name}</h1>
+            <h1 className="sr-only">{t('Detalhes da partida:', 'Match details:')} {match.teams.participant1.name} x {match.teams.participant2.name}</h1>
 
             <Link to="/" className="inline-flex items-center text-sm font-semibold text-slate-400 mb-6 hover:text-slate-200 transition-colors">
-                <ChevronLeft className="w-4 h-4 mr-1" aria-hidden="true" /> Voltar
+                <ChevronLeft className="w-4 h-4 mr-1" aria-hidden="true" /> {t('Voltar', 'Back')}
             </Link>
 
             <div className="text-center mb-8 relative">
                 <div className="text-xs font-bold tracking-widest text-solana-purple uppercase mb-3">
-                    {isFinished ? 'Finalizado' : 'Em andamento / agendado'} • {date}
+                    {isFinished ? t('Finalizado', 'Finished') : t('Em andamento / agendado', 'In progress / scheduled')} • {date}
                 </div>
                 <div className="flex items-center justify-center gap-2 sm:gap-4">
                     <div className="text-right flex-1 min-w-0 flex flex-col items-end gap-3">
@@ -86,19 +88,18 @@ export default function MatchDetail() {
             </div>
 
             <div className="mb-8 p-5 bg-slate-900/40 border border-slate-800 rounded-2xl backdrop-blur-sm">
-                <h2 className="font-bold text-sm mb-6 text-center text-slate-200 uppercase tracking-widest border-b border-slate-800 pb-3">Estatísticas Oficiais</h2>
+                <h2 className="font-bold text-sm mb-6 text-center text-slate-200 uppercase tracking-widest border-b border-slate-800 pb-3">{t('Estatísticas Oficiais', 'Official Statistics')}</h2>
                 {totals ? (
                     <>
-                        {renderStat('Gols', totals.participant1.goals, totals.participant2.goals)}
-                        {renderStat('Escanteios', totals.participant1.corners, totals.participant2.corners)}
-                        {renderStat('Cartões', cardsP1, cardsP2)}
+                        {renderStat(t('Gols', 'Goals'), totals.participant1.goals, totals.participant2.goals)}
+                        {renderStat(t('Escanteios', 'Corners'), totals.participant1.corners, totals.participant2.corners)}
+                        {renderStat(t('Cartões', 'Cards'), cardsP1, cardsP2)}
                         <p className="text-xs text-center text-slate-400 leading-relaxed mt-6">
-                            Chutes ao gol, faltas, pênaltis e impedimentos ainda não têm prova on-chain
-                            documentada no feed da TxODDS, por isso não aparecem aqui.
+                            {t('Chutes ao gol, faltas, pênaltis e impedimentos ainda não têm prova on-chain documentada no feed da TxODDS, por isso não aparecem aqui.', 'Shots on target, fouls, penalties and offsides do not have on-chain proofs documented in the TxODDS feed yet, so they don\'t appear here.')}
                         </p>
                     </>
                 ) : (
-                    <p className="text-sm text-center text-slate-400">Ainda sem estatísticas disponíveis para esta partida.</p>
+                    <p className="text-sm text-center text-slate-400">{t('Ainda sem estatísticas disponíveis para esta partida.', 'No statistics available for this match yet.')}</p>
                 )}
             </div>
 
@@ -120,7 +121,7 @@ export default function MatchDetail() {
                                         {ev.kind === 'card' && (
                                             <Flag className={`w-4 h-4 ${ev.cardType === 'red' ? 'text-red-500' : 'text-yellow-400'}`} aria-hidden="true" />
                                         )}
-                                        {ev.playerName ?? (ev.kind === 'goal' ? 'Gol' : 'Cartão')}
+                                        {ev.playerName ?? (ev.kind === 'goal' ? t('Gol', 'Goal') : t('Cartão', 'Card'))}
                                     </div>
                                     <div className="text-xs text-slate-400 mt-1">{ev.teamName}</div>
                                 </div>
@@ -130,7 +131,7 @@ export default function MatchDetail() {
                     {timeline.length === 0 && (
                         <div className="pl-8">
                             <p className="text-sm text-slate-400 py-4 bg-slate-900/20 rounded-xl text-center border border-dashed border-slate-800">
-                                Nenhum gol ou cartão registrado ainda.
+                                {t('Nenhum gol ou cartão registrado ainda.', 'No goals or cards registered yet.')}
                             </p>
                         </div>
                     )}
@@ -140,11 +141,11 @@ export default function MatchDetail() {
             <div className="fixed bottom-[72px] md:bottom-8 left-0 right-0 max-w-md md:max-w-3xl mx-auto p-4 bg-slate-950/80 backdrop-blur-md md:rounded-t-2xl border-t md:border border-slate-800 z-40">
                 {isFinished ? (
                     <Link to={`/seal/${id}`} className="block w-full py-4 px-4 bg-solana-purple text-white text-center rounded-xl font-bold uppercase tracking-wider hover:bg-[#8036e6] transition-all shadow-[0_0_20px_rgba(153,69,255,0.4)]">
-                        Gerar Recibo Oficial
+                        {t('Gerar Recibo Oficial', 'Generate Official Receipt')}
                     </Link>
                 ) : (
                     <div className="block w-full py-4 px-4 bg-slate-800 text-slate-400 text-center rounded-xl font-bold uppercase tracking-wider cursor-not-allowed">
-                        Disponível após o fim da partida
+                        {t('Disponível após o fim da partida', 'Available after the match ends')}
                     </div>
                 )}
             </div>

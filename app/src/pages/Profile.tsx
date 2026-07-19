@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useSettings } from '../contexts/SettingsContext';
+import { useTranslation } from '../hooks/useTranslation';
 
 const Profile = () => {
-    const { language } = useSettings();
-    const isPt = language === 'pt-BR';
+    const { t } = useTranslation();
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -24,12 +23,12 @@ const Profile = () => {
     const handleSave = (e: React.FormEvent) => {
         e.preventDefault();
         localStorage.setItem('recibet-profile', JSON.stringify({ name, email, password, avatarUrl }));
-        alert(isPt ? 'Perfil salvo com sucesso!' : 'Profile saved successfully!');
+        alert(t('Perfil salvo com sucesso!', 'Profile saved successfully!'));
     };
 
     return (
         <div className="p-4 max-w-2xl mx-auto">
-            <h1 className="text-3xl font-bold mb-8 text-slate-100">{isPt ? 'Meu Perfil' : 'My Profile'}</h1>
+            <h1 className="text-3xl font-bold mb-8 text-slate-100">{t('Meu Perfil', 'My Profile')}</h1>
 
             <form onSubmit={handleSave} className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
                 <div className="flex flex-col items-center mb-8">
@@ -38,7 +37,9 @@ const Profile = () => {
                             <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
                         ) : (
                             <div className="w-full h-full flex items-center justify-center text-slate-500">
-                                {isPt ? 'Sem Foto' : 'No Photo'}
+                                <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">
+                                    {t('Sem Foto', 'No Photo')}
+                                </span>
                             </div>
                         )}
                     </div>
@@ -68,8 +69,8 @@ const Profile = () => {
                 </div>
 
                 <div className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-slate-400 mb-1">{isPt ? 'Nome' : 'Name'}</label>
+                    <div className="bg-slate-900/60 p-6 rounded-2xl border border-slate-800">
+                        <label className="block text-sm font-medium text-slate-400 mb-1">{t('Nome', 'Name')}</label>
                         <input
                             type="text"
                             value={name}
@@ -87,7 +88,7 @@ const Profile = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-400 mb-1">{isPt ? 'Senha' : 'Password'}</label>
+                        <label className="block text-sm font-medium text-slate-400 mb-1">{t('Senha', 'Password')}</label>
                         <input
                             type="password"
                             value={password}
@@ -95,11 +96,11 @@ const Profile = () => {
                             className="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-xl focus:outline-none focus:border-solana-purple text-slate-200"
                         />
                     </div>
-                </div>
-
-                <div className="mt-8 flex justify-end">
-                    <button type="submit" className="px-6 py-3 bg-solana-purple text-white font-bold rounded-xl hover:bg-purple-600 transition-colors">
-                        {isPt ? 'Salvar Alterações' : 'Save Changes'}
+                    <button
+                        type="submit"
+                        className="w-full py-4 bg-solana-purple hover:bg-[#8036e6] text-white font-bold rounded-xl transition-all shadow-[0_0_15px_rgba(153,69,255,0.4)]"
+                    >
+                        {t('Salvar Alterações', 'Save Changes')}
                     </button>
                 </div>
             </form>
