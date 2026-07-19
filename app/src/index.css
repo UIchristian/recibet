@@ -2,6 +2,7 @@
 
 @theme {
   --font-sans: Inter, sans-serif;
+  --font-serif: "Playfair Display", serif;
   --color-solana-purple: #9945FF;
   --color-solana-green: #14F195;
 }
@@ -11,6 +12,63 @@
     font-family: var(--font-sans);
     font-weight: 700;
   }
+}
+
+/* Foco visivel consistente e de marca em qualquer elemento interativo (link, botao,
+   input) sem precisar tocar className por className. !important garante que sobrepoe
+   qualquer focus:outline-none pontual usado nos componentes. */
+:focus-visible {
+  outline: 2px solid var(--color-solana-green) !important;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Respeita a preferencia do sistema de reduzir movimento (pulsos, hovers, spinners). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Cartao "documento/certificado": usado nos cards herois (resultado de verificacao,
+   recibo, revisao antes de gerar). Marca d'agua bem sutil (3-4% de opacidade) em
+   diagonais cruzadas nas cores da marca, tipo textura de papel de seguranca. */
+.certificate-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.certificate-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image:
+    repeating-linear-gradient(45deg, var(--color-solana-green) 0, var(--color-solana-green) 1px, transparent 1px, transparent 16px),
+    repeating-linear-gradient(-45deg, var(--color-solana-purple) 0, var(--color-solana-purple) 1px, transparent 1px, transparent 16px);
+}
+
+/* Selo/carimbo: leve rotacao e borda dupla, como um carimbo oficial. */
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transform: rotate(-3deg);
+  border: 1.5px solid var(--color-solana-green);
+  outline: 1px solid color-mix(in srgb, var(--color-solana-green) 40%, transparent);
+  outline-offset: 2px;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-solana-green);
 }
 
 /* Custom Wallet Adapter Styles */
