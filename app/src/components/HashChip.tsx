@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check, ExternalLink } from 'lucide-react';
 
 // Chip monospace com botao de copiar, reaproveitado em qualquer lugar que mostre um
 // hash/assinatura (verificacao publica, recibos, revisao do recibo).
@@ -32,6 +32,15 @@ export default function HashChip({ value, label }: { value: string; label?: stri
                 >
                     {copied ? <Check className="w-4 h-4 text-solana-green" /> : <Copy className="w-4 h-4" />}
                 </button>
+                <a
+                    href={`https://explorer.solana.com/tx/${value}?cluster=devnet`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Ver no Solana Explorer"
+                    className="flex-none flex items-center justify-center w-11 rounded-xl border border-slate-700 text-slate-400 hover:text-solana-purple hover:border-solana-purple/50 hover:bg-solana-purple/10 transition-colors"
+                >
+                    <ExternalLink className="w-4 h-4" />
+                </a>
             </div>
         </div>
     );

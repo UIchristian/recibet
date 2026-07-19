@@ -185,3 +185,24 @@ const FLAG_CODES: Record<string, string> = {
 export function flagCode(teamName: string): string | undefined {
   return FLAG_CODES[teamName];
 }
+
+const TEAM_TRANSLATIONS: Record<string, string> = {
+  England: "Inglaterra", Scotland: "Escócia", Wales: "País de Gales",
+  Argentina: "Argentina", Brazil: "Brasil", France: "França", Germany: "Alemanha", Spain: "Espanha",
+  Portugal: "Portugal", Netherlands: "Holanda", Belgium: "Bélgica", Italy: "Itália", Croatia: "Croácia",
+  Uruguay: "Uruguai", Colombia: "Colômbia", Mexico: "México", USA: "Estados Unidos", Canada: "Canadá",
+  Japan: "Japão", "South Korea": "Coreia do Sul", Australia: "Austrália", Morocco: "Marrocos", Senegal: "Senegal",
+  Ghana: "Gana", Nigeria: "Nigéria", Egypt: "Egito", "Ivory Coast": "Costa do Marfim", Cameroon: "Camarões",
+  Switzerland: "Suíça", Poland: "Polônia", Denmark: "Dinamarca", Sweden: "Suécia", Norway: "Noruega",
+  Serbia: "Sérvia", Austria: "Áustria", "Czech Republic": "República Tcheca", Ukraine: "Ucrânia", Turkey: "Turquia",
+  Ecuador: "Equador", Chile: "Chile", Peru: "Peru", Paraguay: "Paraguai", "Costa Rica": "Costa Rica",
+  Panama: "Panamá", Qatar: "Catar", "Saudi Arabia": "Arábia Saudita", Iran: "Irã", Iraq: "Iraque",
+  "New Zealand": "Nova Zelândia", "South Africa": "África do Sul", Tunisia: "Tunísia", Algeria: "Argélia",
+  Jordan: "Jordânia", India: "Índia", China: "China", Curacao: "Curaçao", Haiti: "Haiti",
+  Bolivia: "Bolívia", Venezuela: "Venezuela", "Bosnia & Herzegovina": "Bósnia e Herzegovina",
+};
+
+export function translateTeam(teamName: string, lang: 'en' | 'pt-BR'): string {
+  if (lang === 'en') return teamName;
+  return TEAM_TRANSLATIONS[teamName] || teamName;
+}

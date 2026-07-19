@@ -14,13 +14,18 @@ export default function MyReceipts() {
 
     if (receipts.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center p-8 h-full text-center relative z-10">
-                <ShieldCheck className="w-16 h-16 text-slate-700 mb-6 drop-shadow-[0_0_10px_rgba(20,241,149,0.3)]" aria-hidden="true" />
-                <h1 className="text-xl font-bold mb-2 text-slate-100">Nenhum Recibo</h1>
-                <p className="text-sm text-slate-400 mb-8">
-                    Você ainda não gerou nenhum recibo neste navegador.
+            <div className="flex flex-col items-center justify-center p-8 h-full min-h-[60vh] text-center relative z-10 animate-fade-in">
+                <div className="relative mb-8 group cursor-default">
+                    <div className="absolute inset-0 bg-solana-purple blur-2xl opacity-20 rounded-full group-hover:opacity-40 transition-opacity duration-500"></div>
+                    <div className="w-28 h-28 bg-slate-900 border border-slate-700/50 rounded-3xl flex items-center justify-center relative shadow-2xl shadow-solana-purple/20 -rotate-6 transition-all duration-500 group-hover:rotate-0 group-hover:-translate-y-2">
+                        <ShieldCheck className="w-14 h-14 text-slate-400 group-hover:text-solana-purple transition-colors duration-500" aria-hidden="true" />
+                    </div>
+                </div>
+                <h1 className="text-2xl font-bold mb-3 text-slate-100">Nenhum Recibo Encontrado</h1>
+                <p className="text-sm text-slate-400 mb-10 max-w-md leading-relaxed">
+                    Você ainda não gerou nenhum recibo neste navegador. Os recibos são provas criptográficas que garantem a autenticidade dos resultados contra manipulações.
                 </p>
-                <Link to="/" className="px-8 py-3 bg-solana-purple text-white font-bold rounded-xl text-sm shadow-[0_0_15px_rgba(153,69,255,0.4)] hover:bg-[#8036e6] transition-all">
+                <Link to="/" className="px-8 py-4 bg-solana-purple text-white font-bold tracking-wide rounded-xl text-sm shadow-[0_0_20px_rgba(153,69,255,0.4)] hover:bg-[#8036e6] hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(153,69,255,0.6)] transition-all duration-300">
                     Explorar Partidas
                 </Link>
             </div>

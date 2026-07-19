@@ -104,24 +104,35 @@ export default function MatchDetail() {
 
             <div className="mb-24">
                 <h2 className="font-bold text-sm mb-4 text-center text-slate-200 uppercase tracking-widest border-b border-slate-800 pb-3">Timeline</h2>
-                <div className="space-y-4">
+                <div className="relative border-l-2 border-slate-800/80 ml-3 md:ml-4 space-y-6 py-2">
                     {timeline.map((ev, idx) => (
-                        <div key={idx} className="flex items-start gap-4 p-4 rounded-xl border border-slate-800 bg-slate-900/40">
-                            <div className="font-mono text-sm font-bold text-solana-green mt-1 tabular-nums">{formatClock(ev.clockSeconds)}</div>
-                            <div>
-                                <div className="flex items-center gap-2 font-bold text-sm text-slate-200">
-                                    {ev.kind === 'goal' && <CircleDot className="w-4 h-4 text-solana-green" aria-hidden="true" />}
-                                    {ev.kind === 'card' && (
-                                        <Flag className={`w-4 h-4 ${ev.cardType === 'red' ? 'text-red-500' : 'text-yellow-400'}`} aria-hidden="true" />
-                                    )}
-                                    {ev.playerName ?? (ev.kind === 'goal' ? 'Gol' : 'Cartão')}
+                        <div key={idx} className="relative pl-8 group">
+                            {/* Pontinho na linha do tempo */}
+                            <div className="absolute -left-[9px] top-4 w-4 h-4 rounded-full bg-slate-950 border-2 border-solana-purple group-hover:border-solana-green transition-colors duration-300 shadow-[0_0_8px_rgba(153,69,255,0.4)] group-hover:shadow-[0_0_12px_rgba(20,241,149,0.5)]"></div>
+                            
+                            <div className="flex items-start gap-4 p-4 rounded-xl border border-slate-800 bg-slate-900/40 group-hover:bg-slate-900/70 group-hover:-translate-y-1 group-hover:shadow-lg group-hover:border-slate-700 transition-all duration-300">
+                                <div className="font-mono text-sm font-bold text-solana-purple group-hover:text-solana-green transition-colors mt-0.5 tabular-nums">
+                                    {formatClock(ev.clockSeconds)}
                                 </div>
-                                <div className="text-xs text-slate-400 mt-1">{ev.teamName}</div>
+                                <div>
+                                    <div className="flex items-center gap-2 font-bold text-sm text-slate-200">
+                                        {ev.kind === 'goal' && <CircleDot className="w-4 h-4 text-solana-green" aria-hidden="true" />}
+                                        {ev.kind === 'card' && (
+                                            <Flag className={`w-4 h-4 ${ev.cardType === 'red' ? 'text-red-500' : 'text-yellow-400'}`} aria-hidden="true" />
+                                        )}
+                                        {ev.playerName ?? (ev.kind === 'goal' ? 'Gol' : 'Cartão')}
+                                    </div>
+                                    <div className="text-xs text-slate-400 mt-1">{ev.teamName}</div>
+                                </div>
                             </div>
                         </div>
                     ))}
                     {timeline.length === 0 && (
-                        <p className="text-sm text-center text-slate-400 py-8">Nenhum gol ou cartão registrado ainda.</p>
+                        <div className="pl-8">
+                            <p className="text-sm text-slate-400 py-4 bg-slate-900/20 rounded-xl text-center border border-dashed border-slate-800">
+                                Nenhum gol ou cartão registrado ainda.
+                            </p>
+                        </div>
                     )}
                 </div>
             </div>

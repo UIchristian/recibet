@@ -13,6 +13,9 @@ import MatchDetail from './pages/MatchDetail';
 import SealingFlow from './pages/SealingFlow';
 import PublicVerification from './pages/PublicVerification';
 import MyReceipts from './pages/MyReceipts';
+import Profile from './pages/Profile';
+import Settings from './pages/Settings';
+import { SettingsProvider } from './contexts/SettingsContext';
 
 function App() {
     const network = WalletAdapterNetwork.Devnet;
@@ -23,7 +26,8 @@ function App() {
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} autoConnect>
                 <WalletModalProvider>
-                    <BrowserRouter>
+                    <SettingsProvider>
+                        <BrowserRouter>
                         <Routes>
                             <Route path="/" element={<Layout />}>
                                 <Route index element={<MatchList />} />
@@ -31,9 +35,12 @@ function App() {
                                 <Route path="seal/:id" element={<SealingFlow />} />
                                 <Route path="verify" element={<PublicVerification />} />
                                 <Route path="receipts" element={<MyReceipts />} />
+                                <Route path="profile" element={<Profile />} />
+                                <Route path="settings" element={<Settings />} />
                             </Route>
                         </Routes>
                     </BrowserRouter>
+                    </SettingsProvider>
                 </WalletModalProvider>
             </WalletProvider>
         </ConnectionProvider>

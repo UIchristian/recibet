@@ -2,7 +2,8 @@ import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { Home, Receipt, Search } from 'lucide-react';
+import { Home, Receipt, Search, User, Settings } from 'lucide-react';
+import { useTranslation } from '../hooks/useTranslation';
 
 const Layout = () => {
     const location = useLocation();
@@ -10,6 +11,7 @@ const Layout = () => {
 
     const isActive = (path: string) => location.pathname === path;
     const current = (path: string) => (isActive(path) ? 'page' : undefined);
+    const { t } = useTranslation();
 
     return (
         <div className="flex flex-col min-h-screen bg-slate-950 relative w-full">
@@ -20,29 +22,38 @@ const Layout = () => {
             <header className="relative border-b border-slate-800 bg-slate-900/80 backdrop-blur-md z-50 sticky top-0">
                 <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-24">
                     <Link to="/" className="flex items-center" aria-label="Recibet, ir para a página inicial">
-                        <img src="/logo_transparent.png" alt="" className="h-16 md:h-20 object-contain transition-transform hover:scale-105" />
+                        <img src="/logo_transparent.png" alt="" className="h-24 md:h-28 object-contain transition-transform hover:scale-105" />
                     </Link>
 
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex items-center gap-8" aria-label="Navegação principal">
                         <Link to="/" aria-current={current('/')} className={`flex items-center gap-2 text-sm font-semibold transition-all ${isActive('/') ? 'text-solana-green drop-shadow-[0_0_8px_rgba(20,241,149,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}>
-                            <Home className="w-5 h-5" /> Partidas
+                            <Home className="w-5 h-5" /> {t('Partidas', 'Matches')}
                         </Link>
                         <Link to="/verify" aria-current={current('/verify')} className={`flex items-center gap-2 text-sm font-semibold transition-all ${isActive('/verify') ? 'text-solana-green drop-shadow-[0_0_8px_rgba(20,241,149,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}>
-                            <Search className="w-5 h-5" /> Verificar
+                            <Search className="w-5 h-5" /> {t('Verificar', 'Verify')}
                         </Link>
                         <Link to="/receipts" aria-current={current('/receipts')} className={`flex items-center gap-2 text-sm font-semibold transition-all ${isActive('/receipts') ? 'text-solana-green drop-shadow-[0_0_8px_rgba(20,241,149,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}>
-                            <Receipt className="w-5 h-5" /> Recibos
+                            <Receipt className="w-5 h-5" /> {t('Recibos', 'Receipts')}
                         </Link>
                     </nav>
 
-                    <div>
+                    <div className="flex items-center gap-4">
                         {/* WalletMultiButton usa "children" como texto fixo, mesmo ja conectado -
                             por isso so passamos o rotulo quando ainda nao ha carteira conectada.
                             Conectado, ele mesmo mostra o endereco truncado (ex: 3E1g..Bz2Pz). */}
                         <WalletMultiButton>
-                            {connected ? undefined : 'Conectar Carteira'}
+                            {connected ? undefined : t('Conectar Carteira', 'Connect Wallet')}
                         </WalletMultiButton>
+
+                        <div className="hidden md:flex items-center gap-4 border-l border-slate-700 pl-4">
+                            <Link to="/settings" aria-current={current('/settings')} className={`transition-all ${isActive('/settings') ? 'text-solana-green drop-shadow-[0_0_8px_rgba(20,241,149,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}>
+                                <Settings className="w-6 h-6" />
+                            </Link>
+                            <Link to="/profile" aria-current={current('/profile')} className={`transition-all ${isActive('/profile') ? 'text-solana-green drop-shadow-[0_0_8px_rgba(20,241,149,0.5)]' : 'text-slate-400 hover:text-slate-200'}`}>
+                                <User className="w-6 h-6" />
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -53,18 +64,21 @@ const Layout = () => {
             </main>
 
             {/* Mobile Nav */}
-            <nav className="md:hidden fixed bottom-0 w-full bg-slate-900/90 backdrop-blur-xl border-t border-slate-800 flex justify-around p-3 z-50" aria-label="Navegação">
+            <nav className="md:hidden fixed bottom-0 w-full bg-slate-900/90 backdrop-blur-xl border-t border-slate-800 flex justify-around p-3 z-50 overflow-x-auto" aria-label="Navegação">
                 <Link to="/" aria-current={current('/')} className={`flex flex-col items-center p-2.5 rounded-xl transition-all ${isActive('/') ? 'text-solana-green bg-solana-green/10 shadow-[0_0_10px_rgba(20,241,149,0.2)]' : 'text-slate-400 hover:text-slate-300'}`}>
                     <Home className="w-6 h-6" />
-                    <span className="text-xs font-medium mt-1">Partidas</span>
                 </Link>
                 <Link to="/verify" aria-current={current('/verify')} className={`flex flex-col items-center p-2.5 rounded-xl transition-all ${isActive('/verify') ? 'text-solana-green bg-solana-green/10 shadow-[0_0_10px_rgba(20,241,149,0.2)]' : 'text-slate-400 hover:text-slate-300'}`}>
                     <Search className="w-6 h-6" />
-                    <span className="text-xs font-medium mt-1">Verificar</span>
                 </Link>
                 <Link to="/receipts" aria-current={current('/receipts')} className={`flex flex-col items-center p-2.5 rounded-xl transition-all ${isActive('/receipts') ? 'text-solana-green bg-solana-green/10 shadow-[0_0_10px_rgba(20,241,149,0.2)]' : 'text-slate-400 hover:text-slate-300'}`}>
                     <Receipt className="w-6 h-6" />
-                    <span className="text-xs font-medium mt-1">Recibos</span>
+                </Link>
+                <Link to="/profile" aria-current={current('/profile')} className={`flex flex-col items-center p-2.5 rounded-xl transition-all ${isActive('/profile') ? 'text-solana-green bg-solana-green/10 shadow-[0_0_10px_rgba(20,241,149,0.2)]' : 'text-slate-400 hover:text-slate-300'}`}>
+                    <User className="w-6 h-6" />
+                </Link>
+                <Link to="/settings" aria-current={current('/settings')} className={`flex flex-col items-center p-2.5 rounded-xl transition-all ${isActive('/settings') ? 'text-solana-green bg-solana-green/10 shadow-[0_0_10px_rgba(20,241,149,0.2)]' : 'text-slate-400 hover:text-slate-300'}`}>
+                    <Settings className="w-6 h-6" />
                 </Link>
             </nav>
         </div>
