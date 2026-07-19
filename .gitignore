@@ -39,3 +39,9 @@ pnpm-debug.log*
 .npm/
 .yarn/
 .vite/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
